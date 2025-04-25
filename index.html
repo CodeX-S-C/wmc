@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html translate="no" notranslate>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WMC</title>
+    <script>
+        if(!window.location.hash){
+            window.location.href += "#animation";
+            window.location.reload();
+        }
+    </script>
+    <style>
+        :root {
+            --animation-duration: 2;
+            --light-blue: rgb(18, 100, 171);
+            --dark-blue: rgb(5, 31, 94);
+            --vienna-purple: #423189;
+            --vienna-blue: #0047ab;
+        }
+        * {
+            user-select: none;
+        }
+
+        html {
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            font-size: 64px;
+            overflow: hidden;
+            min-width: 100%;
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui;
+            font-weight: 200;
+            color: white;
+            background-position: center;
+            background: linear-gradient(-135deg, #0047ab, #423189, #423189);
+        }
+
+        #wmc {
+            animation: loader linear calc(2s * var(--animation-duration)) 0s;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes loader {
+            0% {
+                opacity: 0;
+                display: none;
+            }
+            50% {
+                opacity: 0;
+                display: none;
+            }
+            100% {
+                opacity: 1;
+                display: block;
+            }
+        }
+
+        #intro {
+            display: block;
+            margin-top: 20%;
+            padding: 30px;
+            animation: hider linear calc(1s * var(--animation-duration)) 0s;
+            animation-fill-mode: forwards;
+            text-align: center;
+        }
+
+        #ilogo {
+            filter: drop-shadow(0px 0px 400px white);
+            animation: shine linear calc(1s * ((var(--animation-duration)*var(--animation-duration)*var(--animation-duration))/10)) 0s;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes shine {
+            0% {
+                filter: drop-shadow(0px 0px 400px white);
+            }
+            100% {
+                filter: drop-shadow(0px 0px 100px white);
+            }
+        }
+
+        @keyframes hider {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 0;
+                display: none;
+            }
+
+        }
+
+        #logo {
+            display: inline-flex;
+            align-items: center;
+            float: left;
+            height: 72px;
+        }
+
+        #quit {
+            display: inline-flex;
+            align-items: center;
+            height: 72px;
+            float: inline-end;
+            padding: 0 8px 0 8px;
+            cursor: pointer;
+        }
+
+        #quit:hover {
+            background: rgba(255, 0, 0, 0.7);
+        }
+
+        #top {
+            padding: 10px;
+            height: 72px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        #container {
+            min-height: calc(100vh - 20vh);
+            padding: 10px;
+            padding-top: 30px;
+            padding-left: 20vh;
+            overflow: hidden;
+        }
+        ::-webkit-scrollbar{
+            display: none;
+        }
+
+        #sound {
+            display: none;
+        }
+
+        select {
+            position: absolute;
+            background: none;
+            font-family: system-ui;
+            font-weight: 200;
+            border: none;
+            appearance: none;
+            outline: none;
+            color: white;
+            overflow: hidden;
+            height: calc(75vh - 1px);
+            font-weight: 200;
+            font-size: 64px;
+        }
+
+        option {
+            font-weight: 200;
+            overflow: hidden;
+        }
+
+        option:not(:checked){
+            opacity: 0.3;
+        }
+
+        option:checked {
+            font-size: 80px;
+            background: none;
+            color: white;
+            opacity: 1;
+        }
+
+        #glassnotify {
+            position: absolute;
+            bottom: 1vh;
+            right: calc(-1 * (40ch + 40px));
+            font-size: 32px;
+            max-width: 40ch;
+            padding: 10px;
+            background: rgba(0, 0, 100, 0.6);
+            backdrop-filter: blur(20px) saturate(200%);
+            border: 1px solid black;
+            border-radius: 5px;
+            animation: slide 5s;
+            animation-fill-mode: forwards;
+            font-weight: 200;
+            line-break: anywhere;
+        }
+
+        @keyframes slide {
+            0% {
+                right: calc(-1 * (40ch + 40px));
+            }
+            20% {
+                right: 1vh;
+            }
+            90% {
+                right: 1vh;
+            }
+            100% {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body onload="load()" language="en">
+    <audio id="sound" src="assets/seven.wav" autoplay=""></audio>
+    <audio id="move" src="assets/move.wav"></audio>
+    <audio id="click" src="assets/select.wav"></audio>
+    <audio id="notify" src="assets/notify.wav"></audio>
+    <div id="intro">
+        <svg id="ilogo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4875 4875" width="128" height="128" fill="#ffffff">
+            <path d="M0 0h2311v2310H0zm2564 0h2311v2310H2564zM0 2564h2311v2311H0zm2564 0h2311v2311H2564"/>
+        </svg>
+        <br>
+        <p>Windows Media Center</p>
+    </div>
+    <div id="wmc">
+        <div id="top">
+            <div id="logo"><img src="assets/winlogo.svg" width="64" height="64">&nbsp;<span>Windows Media Center</span></div>
+            <div id="quit" onclick="window.close()"><img src="assets/xlogo.svg" width="32" height="32"></div>
+        </div>
+        <div id="container">
+            <select id="wmcmain">
+                <option>start</option>
+                <optgroup>
+                    media
+                    <option>videos</option>
+                    <option>music</option>
+                    <option>photos</option>
+                </optgroup>
+                <optgroup>
+                    tasks
+                    <option>manage library</option>
+                    <option>settings</option>
+                    <option>about</option>
+                    <option>quit</option>
+                </optgroup>
+            </select>
+
+        </div>
+    </div>
+    <script>
+        const language = document.body.getAttribute("language");
+        const localize_about = (lang) => {
+            var strings = {
+                "en": {
+                    "title": "About",
+                    "content": "Windows Media Center 11.0\nWindows 8/8.1/10/11\nCopyright (C) 2025 CodeX and Microsoft"
+                },
+                "tr": {
+                    "title": "Hakkında",
+                    "content": "Windows Media Center 11.0\nWindows 8/8.1/10/11\nTelif hakkı (C) 2025 CodeX ve Microsoft"
+                }
+            };
+            if(strings[lang]){
+                return strings[lang];
+            }else{
+                return strings["en"];
+            }
+        }
+        const localize = (en, lang) => {
+            var strings = {
+                "start": {"tr": "başla"},
+                "media": {"tr": "medya"},
+                "videos": {"tr": "videolar"},
+                "music": {"tr": "müzik"},
+                "photos": {"tr": "resimler"},
+                "tasks": {"tr": "görevler"},
+                "manage library": {"tr": "kütüphaneyi yönet"},
+                "settings": {"tr": "ayarlar"},
+                "about": {"tr": "hakkında"},
+                "quit": {"tr": "çık"}
+            };
+            if (strings[en]){
+                if(strings[en][lang]){
+                    return strings[en][lang];
+                }else{
+                    return en;
+                }
+            }else{
+                return en;
+            }
+        }
+        const notify = (t, x) => {
+            var notifier = document.createElement("div");
+            notifier.id = "glassnotify";
+            var title = document.createElement("b");
+            var breaker = document.createElement("br");
+            title.innerText = t;
+            var content = document.createElement("span");
+            content.innerHTML = x.replaceAll("\n","<br>");
+            notifier.appendChild(title);
+            notifier.appendChild(breaker);
+            notifier.appendChild(content);
+            var wmc = document.getElementById("wmc");
+            wmc.appendChild(notifier);
+            var player = document.getElementById("notify");
+            var intro = document.getElementById("sound");
+            if (intro.paused){
+                player.pause();
+                player.currentTime = 0;
+                player.play();
+            }
+            setTimeout(() => {
+                wmc.removeChild(notifier);
+            }, 6000);
+        }
+        const about = () => {
+            var localized = localize_about(language);
+            notify(localized["title"], localized["content"]);
+        }
+        const load = () => {
+            var WMCMenu = {};
+
+            (() => {
+                WMCMenu[localize("quit", language)] = () => window.close();
+                WMCMenu[localize("about", language)] = () => about();
+            })();
+
+            document.onmousedown = (e) => {
+                e.preventDefault();
+            }
+            var selector = document.getElementById("wmcmain");
+            selector.childNodes.forEach(n => {
+                n.childNodes.forEach(j => {
+                    if(j.innerText){
+                        j.innerText = localize(j.innerText, language);
+                    }else{
+                        j.data = localize(j.data.trimStart().trimEnd(), language);
+                    }
+                })
+            })
+            var body = document.body;
+            var move = document.getElementById("move");
+            var click = document.getElementById("click");
+            setInterval(() => selector.focus(), 500);
+            selector.setAttribute("size", selector.childElementCount);
+            selector.addEventListener("change", (e) => {
+                move.pause();
+                move.currentTime = 0;
+                move.play();
+            });
+            selector.addEventListener("keypress", (e) => {
+                if (e.keyCode == 13 && selector.value != localize("start", language)){
+                    click.pause();
+                    click.currentTime = 0;
+                    click.play();
+                    setTimeout(WMCMenu[selector.value], 800);
+                }
+                if (e.keyCode == 8){
+                    window.location.href = window.history.back();
+                    window.location.reload();
+                }
+            });
+            body.addEventListener("contextmenu", (e) => {
+                e.preventDefault();
+                return false;
+            });
+        }
+    </script>
+</body>
+</html>

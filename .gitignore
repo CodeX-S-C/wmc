@@ -1,0 +1,5 @@
+*.bat
+chrome-win
+*.exe
+*.dll
+chrome-win/*
